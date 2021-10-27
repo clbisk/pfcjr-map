@@ -3,6 +3,8 @@ namespace Interactive_Policy_Map;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
+use Elementor\Group_Control_Class;
+use Elementor\Repeater;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -37,6 +39,58 @@ class Map_Widget extends Widget_Base {
 		return array( 'bootstrap-css', 'interactive_map_style' );
 	}
 
+	private function _add_state_control($state) {
+		$this->add_control(
+			$state . '-toggle',
+			[
+				'label' => __( $state, self::$map_widget_name ),
+				'type' => Controls_Manager::POPOVER_TOGGLE,
+				'label_off' => __( 'Default', self::$map_widget_name ),
+				'label_on' => __( 'Custom', self::$map_widget_name ),
+				'return_value' => 'yes',
+			]
+		);
+		$this->start_popover();
+
+		$supported_repeater = new Repeater();
+
+		$supported_repeater->add_control(
+			$state . '_supported_policy',
+			[
+				'label' => __( 'Supported Policy', self::$map_widget_name ),
+				'type' => Controls_Manager::TEXT,
+			]
+		);
+
+		$supported_repeater->add_control(
+			$state . '_supported_policy_info',
+			[
+				'label' => __( 'Supported Policy Info', self::$map_widget_name ),
+				'type' => Controls_Manager::TEXT,
+			]
+		);
+
+		$this->add_control(
+			$state . 'supported_list',
+			[
+				'label' =>__( 'Supported Policies', self::$map_widget_name),
+				'type' => Controls_Manager::REPEATER,
+				'prevent_empty' => false,
+				'fields' => $supported_repeater->get_controls(),
+				'title_field' => '{{{ ' . $state . '_supported_policy }}}'
+			]
+		);
+
+		$this->add_control(
+			$state . '_opposed',
+			[
+				'label' => __( 'Opposed Policies', self::$map_widget_name ),
+				'type' => Controls_Manager::TEXT,
+			]
+		);
+		$this->end_popover();
+	}
+
 	protected function _register_controls() {
 
 		$this->start_controls_section(
@@ -46,24 +100,10 @@ class Map_Widget extends Widget_Base {
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
-		
-		$this->add_control(
-			'Hawaii',
-			[
-				'label' => __( 'Hawaii', self::$map_widget_name ),
-				'type' => Controls_Manager::TEXT,
-				'default' => __( 'no policy information for this state', self::$map_widget_name ),
-			]
-		);
 
-		$this->add_control(
-			'Alaska',
-			[
-				'label' => __( 'Alaska', self::$map_widget_name ),
-				'type' => Controls_Manager::TEXT,
-				'default' => __( 'no policy information for this state', self::$map_widget_name ),
-			]
-		);
+		self::_add_state_control('Hawaii');
+
+		self::_add_state_control('Alaska');
 
 		$this->end_controls_section();
 
