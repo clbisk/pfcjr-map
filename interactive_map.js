@@ -3,6 +3,12 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
 });
 
+$(function () {
+	$('.example-popover').popover({
+		container: 'body'
+	})
+})
+
 //Southern states
 	$("#TX").click(function(){window.open("https://pfcjreform.org/southern-states/","_blank");});
 	$("#AL").click(function(){window.open("https://pfcjreform.org/southern-states/","_blank");});
@@ -33,18 +39,14 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   
   $("#VA").click(function(){window.open("https://pfcjreform.org/southern-states/","_blank");});
   
-  //Western states
-  
-  $("#AK").click(function(){window.open("https://pfcjreform.org/western-states/","_blank");});
-  
+//Western states
+    
   $("#AZ").click(function(){window.open("https://pfcjreform.org/western-states/","_blank");});
   
   $("#CA").click(function(){window.open("https://pfcjreform.org/western-states/","_blank");});
   
   $("#CO").click(function(){window.open("https://pfcjreform.org/western-states/","_blank");});
-  
-  $("#HI").click(function(){window.open("https://pfcjreform.org/western-states/","_blank");});
-  
+    
   $("#ID").click(function(){window.open("https://pfcjreform.org/western-states/","_blank");});
   
   $("#MT").click(function(){window.open("https://pfcjreform.org/western-states/","_blank");});

@@ -2,12 +2,15 @@
 namespace Interactive_Policy_Map;
 
 use Elementor\Widget_Base;
+use Elementor\Controls_Manager;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-class Map_Widget extends Widget_Base { 
+class Map_Widget extends Widget_Base {
+	public static $map_widget_name = 'interactive-policy-map';
+
     function __construct($data = [], $args = null) {
         parent::__construct($data, $args);
 
@@ -21,9 +24,9 @@ class Map_Widget extends Widget_Base {
 		wp_register_style('interactive_map_style', plugins_url('interactive_map_style.css', __FILE__));
     }
 
-	public function get_name() { return 'interactive policy map'; }
-	public function get_title() { return __( 'interactive policy map', 'Interactive Map for pfcjreform.org' ); }
-	public function get_icon() { return 'fa fa-code'; }
+	public function get_name() { return self::$map_widget_name; }
+	public function get_title() { return __('Interactive Policy Map' , self::$map_widget_name); }
+	public function get_icon() { return 'fa fa-atlas'; }
 	public function get_categories() { return ['general']; }
 
 	public function get_script_depends() {
@@ -33,10 +36,42 @@ class Map_Widget extends Widget_Base {
 	public function get_style_depends() {
 		return array( 'bootstrap-css', 'interactive_map_style' );
 	}
+
+	protected function _register_controls() {
+
+		$this->start_controls_section(
+			'state_policies',
+			[
+				'label' => __( 'State Policies', self::$map_widget_name ),
+				'tab' => Controls_Manager::TAB_CONTENT,
+			]
+		);
+		
+		$this->add_control(
+			'Hawaii',
+			[
+				'label' => __( 'Hawaii', self::$map_widget_name ),
+				'type' => Controls_Manager::TEXT,
+				'default' => __( 'no policy information for this state', self::$map_widget_name ),
+			]
+		);
+
+		$this->add_control(
+			'Alaska',
+			[
+				'label' => __( 'Alaska', self::$map_widget_name ),
+				'type' => Controls_Manager::TEXT,
+				'default' => __( 'no policy information for this state', self::$map_widget_name ),
+			]
+		);
+
+		$this->end_controls_section();
+
+	}
     
     // Creating widget display
     protected function render() {
-		$settings = $this->get_settings_for_display();
+		$states_policies = $this->get_settings_for_display('states_policies');
 
 		echo '<div class="elementor-widget">
 		<title>Interactive Policy Map</title>
