@@ -9,11 +9,10 @@ stateList.map(state => {
 });
 
 popoverHandleList.map(popoverHandle => {
-	console.log(popoverHandle.getAttribute("state-name"));
-
 	new bootstrap.Popover(popoverHandle, {    
 		content: popoverHandle.getAttribute("state-policy"),
 		title: popoverHandle.getAttribute("state-name"),
-		placement: 'auto'
+		placement: 'auto',
+		trigger: 'focus'
 	});
 });

@@ -188,7 +188,7 @@ class Map_Widget extends Widget_Base {
 	private function _render_state($state_acronym, $policy_data) {
 		$state_name = self::$state_acronyms[$state_acronym];
 		$state_path = self::$state_polys[$state_acronym];
-		echo '<a class="popover-handle" state-name="' . $state_name . '" state-policy="' . $policy_data . '">';
+		echo '<a tabindex="0" class="popover-handle" state-name="' . $state_name . '" state-policy="' . $policy_data . '">';
 		echo '<path class="state" id="' . $state_acronym . '" state-name="' . $state_name . '" fill="#D3D3D3" d="' . $state_path . '"/>';
 		echo '</a>';
 	}
@@ -196,6 +196,7 @@ class Map_Widget extends Widget_Base {
     // Creating widget display
     protected function render() {
 		$states_policies = $this->get_settings_for_display('states_policies');
+		echo '<div>' . $states_policies . '</div>';
 
 		echo '<div class="elementor-widget">
 		<title>Interactive Policy Map</title>
