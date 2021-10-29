@@ -123,7 +123,7 @@ class Map_Widget extends Widget_Base {
 		);
 
 		$this->add_control(
-			$state . 'supported_list',
+			$state . '_supported_list',
 			[
 				'label' =>__( 'Supported Policies', self::$map_widget_name),
 				'type' => Controls_Manager::REPEATER,
@@ -153,7 +153,7 @@ class Map_Widget extends Widget_Base {
 		);
 
 		$this->add_control(
-			$state . 'opposed_list',
+			$state . '_opposed_list',
 			[
 				'label' =>__( 'Opposed Policies', self::$map_widget_name),
 				'type' => Controls_Manager::REPEATER,
@@ -185,19 +185,37 @@ class Map_Widget extends Widget_Base {
 
 	}
 
-	private function _render_state($state_acronym, $policy_data) {
-		$state_name = self::$state_acronyms[$state_acronym];
+	private function _render_state($state_acronym, $state_name) {
+		$state_pro_policies = $this->get_settings_for_display($state_name . '_supported_list');
+		$state_anti_policies = $this->get_settings_for_display($state_name . '_opposed_list');
+
 		$state_path = self::$state_polys[$state_acronym];
-		echo '<a tabindex="0" class="popover-handle" state-name="' . $state_name . '" state-policy="' . $policy_data . '">';
+		echo '<a tabindex="0" class="popover-handle" state-name="' . $state_name . '" ';
+		
+		echo 'state-policy="';
+		if (sizeof($state_pro_policies) > 0) {
+			echo "PFCJR Position: Supports\n";
+			foreach ($state_pro_policies as $pro_policy) {
+				echo $pro_policy[$state_name . '_supported_policy'] . ":\n";
+				echo $pro_policy[$state_name . '_supported_policy_info'] . "\n\n";
+			}
+		}
+		
+		if (sizeof($state_anti_policies) > 0) {
+			echo "PFCJR Position: Opposes\n";
+			foreach ($state_anti_policies as $anti_policy) {
+				echo $anti_policy[$state_name . '_opposed_policy'] . ":\n";
+				echo $anti_policy[$state_name . '_opposed_policy_info'] . "\n\n";
+			}
+		}
+
+		echo '">';
 		echo '<path class="state" id="' . $state_acronym . '" state-name="' . $state_name . '" fill="#D3D3D3" d="' . $state_path . '"/>';
 		echo '</a>';
 	}
     
     // Creating widget display
     protected function render() {
-		$states_policies = $this->get_settings_for_display('states_policies');
-		echo '<div>' . $states_policies . '</div>';
-
 		echo '<div class="elementor-widget">
 		<title>Interactive Policy Map</title>
 
@@ -206,7 +224,8 @@ class Map_Widget extends Widget_Base {
 		<g id="g5">';
 
 		foreach (self::$state_acronyms as $state_acronym => $state_name) {
-			self::_render_state($state_acronym, "hi I'm a text hellooo nice to meet you buddy");
+			// get policy set by user in Elementor editor
+			self::_render_state($state_acronym, $state_name);
 		}
 				
 		echo '</g>
