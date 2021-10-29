@@ -194,19 +194,21 @@ class Map_Widget extends Widget_Base {
 		
 		echo 'state-policy="';
 		if (sizeof($state_pro_policies) > 0) {
-			echo "PFCJR Position: Supports\n";
+			echo '<div class=\'pro-policies\'><div class=\'pro-policies-header\'>PFCJR Position: Supports</div>';
 			foreach ($state_pro_policies as $pro_policy) {
-				echo $pro_policy[$state_name . '_supported_policy'] . ":\n";
-				echo $pro_policy[$state_name . '_supported_policy_info'] . "\n\n";
+				echo '<div class=\'policy-name\'><b>' . $pro_policy[$state_name . '_supported_policy'] . ':</b></div>';
+				echo '<div class=\'policy-info\'>' . $pro_policy[$state_name . '_supported_policy_info'] . '</div>';
 			}
+			echo '</div>';
 		}
 		
 		if (sizeof($state_anti_policies) > 0) {
-			echo "PFCJR Position: Opposes\n";
+			echo '<div class=\'anti-policies\'><div class=\'anti-policies-header\'>PFCJR Position: Opposes</div>';
 			foreach ($state_anti_policies as $anti_policy) {
-				echo $anti_policy[$state_name . '_opposed_policy'] . ":\n";
-				echo $anti_policy[$state_name . '_opposed_policy_info'] . "\n\n";
+				echo '<div class=\'policy-name\'><b>' . $anti_policy[$state_name . '_opposed_policy'] . ':</b></div>';
+				echo '<div class=\'policy-info\'>' . $anti_policy[$state_name . '_opposed_policy_info'] . '</div>';
 			}
+			echo '</div>';
 		}
 
 		echo '">';

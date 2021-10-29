@@ -13,6 +13,7 @@ popoverHandleList.map(popoverHandle => {
 		content: popoverHandle.getAttribute("state-policy"),
 		title: popoverHandle.getAttribute("state-name"),
 		placement: 'auto',
-		trigger: 'focus'
+		trigger: 'focus',
+		html: true
 	});
 });
