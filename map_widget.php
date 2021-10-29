@@ -175,6 +175,8 @@ class Map_Widget extends Widget_Base {
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
+		
+		self::_add_state_control('DC');
 
 		ksort(self::$state_acronyms);
 		foreach (self::$state_acronyms as $state_acronym => $state_name) {
@@ -211,6 +213,10 @@ class Map_Widget extends Widget_Base {
 			echo '</div>';
 		}
 
+		if (sizeof($state_pro_policies) == 0 && sizeof($state_anti_policies) == 0) {
+			echo '<div class=\'no-info\'>no policy information found for ' . $state_name . ', stay tuned for updates!</div>';
+		}
+
 		echo '">';
 		echo '<path class="state" id="' . $state_acronym . '" state-name="' . $state_name . '" fill="#D3D3D3" d="' . $state_path . '"/>';
 		echo '</a>';
@@ -225,20 +231,51 @@ class Map_Widget extends Widget_Base {
 			
 		<g id="g5">';
 
+		// render all the states with interactivity
 		foreach (self::$state_acronyms as $state_acronym => $state_name) {
 			// get policy set by user in Elementor editor
 			self::_render_state($state_acronym, $state_name);
 		}
-				
-		echo '</g>
+		
+		echo '</g>';
+
+		// rsender DC
+		echo '<a tabindex="0" class="popover-handle no-outline" state-name="Washington DC" state-policy="';
+
+		$dc_pro_policies = $this->get_settings_for_display('DC_supported_list');
+		$dc_anti_policies = $this->get_settings_for_display('DC_opposed_list');
+
+		if (sizeof($dc_pro_policies) > 0) {
+			echo '<div class=\'pro-policies\'><div class=\'pro-policies-header\'>PFCJR Position: Supports</div>';
+			foreach ($dc_pro_policies as $pro_policy) {
+				echo '<div class=\'policy-name\'><b>' . $pro_policy['DC_supported_policy'] . ':</b></div>';
+				echo '<div class=\'policy-info\'>' . $pro_policy['DC_supported_policy_info'] . '</div>';
+			}
+			echo '</div>';
+		}
+		
+		if (sizeof($dc_anti_policies) > 0) {
+			echo '<div class=\'anti-policies\'><div class=\'anti-policies-header\'>PFCJR Position: Opposes</div>';
+			foreach ($dc_anti_policies as $anti_policy) {
+				echo '<div class=\'policy-name\'><b>' . $anti_policy['DC_opposed_policy'] . ':</b></div>';
+				echo '<div class=\'policy-info\'>' . $anti_policy['DC_opposed_policy_info'] . '</div>';
+			}
+			echo '</div>';
+		}
+
+		if (sizeof($dc_pro_policies) == 0 && sizeof($dc_anti_policies) == 0) {
+			echo '<div class=\'no-info\'>no policy information found for Washington DC, stay tuned for updates!</div>';
+		}
+		
+		echo '">
 			<g id="DC">
 				<path id="path58" fill="#D3D3D3" d="M975.8,353.8l-1.1-1.6l-1-0.8l1.1-1.6l2.2,1.5L975.8,353.8z"/>
-				<circle id="circle60" data-bs-toggle="tooltip" title="Washington DC" fill="#D3D3D3" stroke="#FFFFFF" stroke-width="1.5" cx="975.3" cy="351.8" r="5"/>
+				<circle class="state" state-name="Washington DC" id="circle60" fill="#D3D3D3" stroke="#FFFFFF" stroke-width="1.5" cx="975.3" cy="351.8" r="5"/>
 			</g>
 			<path id="path67" fill="none" stroke="#A9A9A9" stroke-width="2" d="M385,593v55l36,45 M174,525h144l67,68h86l53,54v46"/>
+		</a>';
 
-		</svg>
-		</div>';
+		echo '</svg></div>';
     }
 }
 ?>

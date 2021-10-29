@@ -15,3 +15,43 @@ path:hover, circle:hover {
   stroke: #A9A9A9 !important;
   cursor: default;
 }
+
+.pro-policies-header {
+  background-color: lightgreen;
+  font-weight: bolder;
+}
+
+.anti-policies-header {
+  padding-top: 4px;
+  background-color: lightcoral;
+  font-weight: bolder;
+}
+
+.state {
+  outline: none;
+}
+
+.no-outline {
+  outline: none;
+}
+
+.policy-name {
+  padding-top: 4px;
+}
+
+.policy-info {
+  padding-bottom: 4px;
+}
+
+.popover {
+  max-width: 500%;
+  width: 200%;
+}
+
+.popover-header {
+  font-family: "Times New Roman", sans-serif;
+}
+
+.popover-body {
+  font-family: "Times New Roman", sans-serif;
+}
