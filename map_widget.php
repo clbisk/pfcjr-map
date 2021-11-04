@@ -118,7 +118,7 @@ class Map_Widget extends Widget_Base {
 			$state . '_supported_policy_info',
 			[
 				'label' => __( 'Description', self::$map_widget_name ),
-				'type' => Controls_Manager::TEXT,
+				'type' => 'textwithlinks',
 			]
 		);
 
@@ -148,7 +148,7 @@ class Map_Widget extends Widget_Base {
 			$state . '_opposed_policy_info',
 			[
 				'label' => __( 'Description', self::$map_widget_name ),
-				'type' => Controls_Manager::TEXT,
+				'type' => 'textwithlinks',
 			]
 		);
 
@@ -239,7 +239,7 @@ class Map_Widget extends Widget_Base {
 		
 		echo '</g>';
 
-		// rsender DC
+		// render DC
 		echo '<a tabindex="0" class="popover-handle no-outline" state-name="Washington DC" state-policy="';
 
 		$dc_pro_policies = $this->get_settings_for_display('DC_supported_list');

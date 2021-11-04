@@ -1,0 +1,18 @@
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-right: 1em;
+}
+
+.link-button {
+    width: 2em;
+    color: cadetblue;
+}
+
+.link-button button {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
