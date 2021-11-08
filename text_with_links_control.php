@@ -13,12 +13,12 @@ class Text_With_Links_Control extends Base_Data_Control {
 		// styles
 		wp_enqueue_style('textwithlinks', plugins_url('textwithlinks.css', __FILE__), array(), '2.2.1');
 
-		wp_enqueue_style('bootstrap-css', '//cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css');
-
+		wp_enqueue_style('bootstrap-css', '//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css');
+		
 		// scripts
 		wp_enqueue_script('jquery', '//code.jquery.com/jquery-3.6.0.min.js');
 
-		wp_enqueue_script('bootstrap', '//code.jquery.com/jquery-3.5.1.slim.min.js', array('jquery'), '4.5.3', true);
+		wp_enqueue_script('bootstrap', '//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', array('jquery'), '5.1.3', true);
 
 		$my_script_dependencies = array('jquery', 'bootstrap');
 		wp_enqueue_script('add_links_to_text', plugins_url('add_links_to_text.js', __FILE__),
