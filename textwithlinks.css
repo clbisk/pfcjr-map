@@ -7,6 +7,22 @@
     padding-right: 1em;
 }
 
+.target-link {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-right: 0.5em;
+    padding-left: 2em;
+}
+
+.target-link button {
+    font-size: x-small;
+}
+
+.target-link input {
+    min-width: 10px;
+}
+
 .link-button {
     width: 2em;
     color: cadetblue;

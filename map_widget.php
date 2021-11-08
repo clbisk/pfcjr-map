@@ -105,7 +105,6 @@ class Map_Widget extends Widget_Base {
 		$this->start_popover();
 
 		$supported_repeater = new Repeater();
-
 		$supported_repeater->add_control(
 			$state . '_supported_policy',
 			[
@@ -118,7 +117,7 @@ class Map_Widget extends Widget_Base {
 			$state . '_supported_policy_info',
 			[
 				'label' => __( 'Description', self::$map_widget_name ),
-				'type' => 'textwithlinks',
+				'type' => Controls_Manager::TEXTAREA,
 			]
 		);
 
@@ -135,7 +134,6 @@ class Map_Widget extends Widget_Base {
 		);
 
 		$opposed_repeater = new Repeater();
-
 		$opposed_repeater->add_control(
 			$state . '_opposed_policy',
 			[
@@ -148,7 +146,7 @@ class Map_Widget extends Widget_Base {
 			$state . '_opposed_policy_info',
 			[
 				'label' => __( 'Description', self::$map_widget_name ),
-				'type' => 'textwithlinks',
+				'type' => Controls_Manager::TEXTAREA,
 			]
 		);
 
@@ -163,6 +161,28 @@ class Map_Widget extends Widget_Base {
 				'title_field' => '{{{ ' . $state . '_opposed_policy }}}'
 			]
 		);
+
+		$action_items_repeater = new Repeater();
+		$action_items_repeater->add_control(
+			$state . '_action_item',
+			[
+				'label' => __( 'Action Item', self::$map_widget_name ),
+				'type' => Controls_Manager::TEXT,
+			]
+		);
+
+		$this->add_control(
+			$state . '_action_items',
+			[
+				'label' =>__( 'Action Items', self::$map_widget_name),
+				'type' => Controls_Manager::REPEATER,
+				'prevent_empty' => false,
+				'fields' => $action_items_repeater->get_controls(),
+				'default' => [],
+				'title_field' => '{{{ ' . $state . '_action_item }}}'
+			]
+		);
+
 		$this->end_popover();
 	}
 
@@ -187,14 +207,9 @@ class Map_Widget extends Widget_Base {
 
 	}
 
-	private function _render_state($state_acronym, $state_name) {
-		$state_pro_policies = $this->get_settings_for_display($state_name . '_supported_list');
-		$state_anti_policies = $this->get_settings_for_display($state_name . '_opposed_list');
-
-		$state_path = self::$state_polys[$state_acronym];
-		echo '<a tabindex="0" class="popover-handle" state-name="' . $state_name . '" ';
-		
+	private function _render_policy($state_name, $state_pro_policies, $state_anti_policies, $state_action_items) {
 		echo 'state-policy="';
+
 		if (sizeof($state_pro_policies) > 0) {
 			echo '<div class=\'pro-policies\'><div class=\'pro-policies-header\'>PFCJR Position: Supports</div>';
 			foreach ($state_pro_policies as $pro_policy) {
@@ -213,11 +228,32 @@ class Map_Widget extends Widget_Base {
 			echo '</div>';
 		}
 
+		if (sizeof($state_action_items) > 0) {
+			echo '<div class=\'action-items\'><div><b>What you can do</b></div><ul>';
+			foreach ($state_action_items as $state_action_item) {
+				echo '<li>' . $state_action_item[$state_name . '_action_item'] . '</li>';
+			}
+			echo '</ul></div>';
+		}
+
 		if (sizeof($state_pro_policies) == 0 && sizeof($state_anti_policies) == 0) {
 			echo '<div class=\'no-info\'>no policy information found for ' . $state_name . ', stay tuned for updates!</div>';
 		}
 
-		echo '">';
+		echo '"';
+	}
+
+	private function _render_state($state_acronym, $state_name) {
+		$state_pro_policies = $this->get_settings_for_display($state_name . '_supported_list');
+		$state_anti_policies = $this->get_settings_for_display($state_name . '_opposed_list');
+		$state_action_items = $this->get_settings_for_display($state_name . '_action_items');
+
+		$state_path = self::$state_polys[$state_acronym];
+		echo '<a tabindex="0" class="popover-handle" state-name="' . $state_name . '" ';
+		
+		self::_render_policy($state_name, $state_pro_policies, $state_anti_policies, $state_action_items);
+
+		echo '>';
 		echo '<path class="state" id="' . $state_acronym . '" state-name="' . $state_name . '" fill="#D3D3D3" d="' . $state_path . '"/>';
 		echo '</a>';
 	}
@@ -240,10 +276,12 @@ class Map_Widget extends Widget_Base {
 		echo '</g>';
 
 		// render DC
+		echo '<g id="DC">';
 		echo '<a tabindex="0" class="popover-handle no-outline" state-name="Washington DC" state-policy="';
 
 		$dc_pro_policies = $this->get_settings_for_display('DC_supported_list');
 		$dc_anti_policies = $this->get_settings_for_display('DC_opposed_list');
+		$dc_action_items = $this->get_settings_for_display('DC_action_items');
 
 		if (sizeof($dc_pro_policies) > 0) {
 			echo '<div class=\'pro-policies\'><div class=\'pro-policies-header\'>PFCJR Position: Supports</div>';
@@ -263,18 +301,24 @@ class Map_Widget extends Widget_Base {
 			echo '</div>';
 		}
 
+		if (sizeof($dc_action_items) > 0) {
+			echo '<div class=\'action-items\'><div><b>What you can do</b></div><ul>';
+			foreach ($dc_action_items as $action_item) {
+				echo '<li>' . $action_item['DC_action_item'] . '</li>';
+			}
+			echo '</ul></div>';
+		}
+
 		if (sizeof($dc_pro_policies) == 0 && sizeof($dc_anti_policies) == 0) {
 			echo '<div class=\'no-info\'>no policy information found for Washington DC, stay tuned for updates!</div>';
 		}
 		
 		echo '">
-			<g id="DC">
-				<path id="path58" fill="#D3D3D3" d="M975.8,353.8l-1.1-1.6l-1-0.8l1.1-1.6l2.2,1.5L975.8,353.8z"/>
-				<circle class="state" state-name="Washington DC" id="circle60" fill="#D3D3D3" stroke="#FFFFFF" stroke-width="1.5" cx="975.3" cy="351.8" r="5"/>
-			</g>
-			<path id="path67" fill="none" stroke="#A9A9A9" stroke-width="2" d="M385,593v55l36,45 M174,525h144l67,68h86l53,54v46"/>
+			<path id="path58" fill="#D3D3D3" d="M975.8,353.8l-1.1-1.6l-1-0.8l1.1-1.6l2.2,1.5L975.8,353.8z"/>
+			<circle class="state" state-name="Washington DC" id="circle60" fill="#D3D3D3" stroke="#FFFFFF" stroke-width="1.5" cx="975.3" cy="351.8" r="5"/>
 		</a>';
 
+		echo '</g><path id="path67" fill="none" stroke="#A9A9A9" stroke-width="2" d="M385,593v55l36,45 M174,525h144l67,68h86l53,54v46"/>';
 		echo '</svg></div>';
     }
 }

@@ -40,12 +40,11 @@ path:hover, circle:hover {
 }
 
 .policy-info {
-  padding-bottom: 4px;
+  padding-bottom: 10px;
 }
 
 .popover {
-  max-width: 500%;
-  width: 200%;
+  max-width: 75%;
 }
 
 .popover-header {
