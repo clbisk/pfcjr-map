@@ -9,13 +9,21 @@ function openLinkCreator() {
 
 var textWithLinksView = elementor.modules.controls.BaseData.extend({
 	onReady: function () {
+		var highlighted = "";
+	},
+
+	saveHighlighted: function () {
 		jQuery(document).ready(function($) {
-			$('body').popover({
-				placement: 'left',
-				html: true,
-				container: 'body',
-				selector: '.link-button'
-			});
+			if (window.getSelection) {
+				this.highlighted = window.getSelection();
+			} else if (document.selection && document.selection.type != "Control") {
+				this.highlighted = document.selection.createRange();
+			} else {
+				this.highlighted = "";
+			}
+	
+			highlightedText = highlighted.getText();
+			console.log(highlightedText);
 		});
 	},
 
@@ -32,23 +40,3 @@ var textWithLinksView = elementor.modules.controls.BaseData.extend({
 });
 
 elementor.addControlView('textwithlinks', textWithLinksView);
-
-function linkHighlighted() {
-	jQuery(document).ready(function($) {
-		var highlighted = "";
-
-		if (window.getSelection) {
-			highlighted = window.getSelection();
-		} else if (document.selection && document.selection.type != "Control") {
-			highlighted = document.selection.createRange();
-		}
-
-		highlightedText = highlighted.getText();
-		console.log(highlightedText);
-
-		var prevText = $('.elementor-control-tag-area').val();
-		
-
-		$('.target-link').hide();
-	});
-}

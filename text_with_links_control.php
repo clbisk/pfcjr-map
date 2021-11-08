@@ -35,20 +35,16 @@ class Text_With_Links_Control extends Base_Data_Control {
 	public function content_template() {
 		$control_uid = $this->get_control_uid();
 
+		$link_modal = 
 		$link_popover = '"tomato"';
 
 		echo '<div class="elementor-control-field">';
 
 		echo '  <div class="toolbar">';
 		echo '      <label for="' . esc_attr( $control_uid ) . '" class = "elementor-control-title">{{{ data.label }}}</label>';
-		echo '      <div class=\'target-link\' style="display: none;">';
-		echo '			<input class="target-link-input" placeholder=\'www.example.com\' type=\'text\' aria-label=\'link URL\'/>';
-		echo '			<button type="button" class="btn btn-primary btn-sm" onclick=\'linkHighlighted()\' disabled="true">Create Link</button>';
-		echo '		</div>';
 
-		echo '		<div class="link-button">';
-		echo '			<button onclick="openLinkCreator()" type="button" class="btn btn-outline-info" data-bs-toggle="popover" title="Link URL:" ';
-		echo '			data-bs-content=' . $link_popover . '>';
+		echo '		<div class="link-button" onclick="saveHighlighted()">';
+		echo '			<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#target-link-modal">';
 		echo '				<i class="fas fa-link fa-xs"></i>';
 		echo '          </button>';
 		echo '      </div>';
@@ -60,6 +56,21 @@ class Text_With_Links_Control extends Base_Data_Control {
 		echo '      </textarea>';
 		echo '  </div>';
 
+		echo '</div>';
+
+		// URL Modal
+		echo '<div class=\'target-link modal fade\' id="target-link-modal" tabindex="-1" role="dialog" aria-hidden="true">';
+		echo '	<div class="modal-dialog" role="document"><div class="modal-content">';
+		echo '		<div class="modal-header">';
+		echo '			<div>Input Link URL</div>';
+		echo '		</div>';
+		echo '		<div class="modal-body">';
+		echo '			<input class="target-link-input" placeholder=\'www.example.com\' type=\'text\' aria-label=\'link URL\'/>';
+		echo '		</div>';
+		echo '		<div class="modal-footer">';
+		echo '			<button type="button" class="btn btn-primary btn-sm" onclick=\'createLink()\'>Create Link</button>';
+		echo '		</div>';
+		echo '	</div></div>';
 		echo '</div>';
 	}
 }
