@@ -242,7 +242,7 @@ class Map_Widget extends Widget_Base {
 			echo '<div class=\'action-items\'><div><b>What you can do</b></div><ul>';
 			foreach ($state_action_items as $state_action_item) {
 				$raw_action_item = $state_action_item[$state_name . '_action_item'];
-				$action_item = str_replace("\"", "&quot", $raw_action_item);
+				$action_item = str_replace("\"", "'", $raw_action_item);
 				echo '<li>' . $action_item . '</li>';
 			}
 			echo '</ul></div>';
@@ -327,7 +327,7 @@ class Map_Widget extends Widget_Base {
 			echo '<div class=\'action-items\'><div><b>What you can do</b></div><ul>';
 			foreach ($dc_action_items as $action_item) {
 				$raw_dc_action_item = $action_item['DC_action_item'];
-				$dc_action_item = str_replace("\"", "&quot", $raw_dc_action_item);
+				$dc_action_item = str_replace("\"", "'", $raw_dc_action_item);
 				echo '<li>' . $dc_action_item . '</li>';
 			}
 			echo '</ul></div>';
