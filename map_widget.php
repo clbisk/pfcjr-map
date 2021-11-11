@@ -91,6 +91,12 @@ class Map_Widget extends Widget_Base {
 		return array( 'bootstrap-css', 'interactive_map_style' );
 	}
 
+	private function _escape_quotation_marks($string) {
+		$string = preg_replace('/"(>.*<\/a>)/', "'$1", $string);
+		$string = preg_replace('/(<a.*)"/', "$1'", $string);
+		return str_replace("\"", "&quot", $string);
+	}
+
 	private function _add_state_control($state) {
 		$this->add_control(
 			$state . '-toggle',
@@ -214,9 +220,9 @@ class Map_Widget extends Widget_Base {
 			echo '<div class=\'pro-policies\'><div class=\'pro-policies-header\'>PFCJR Position: Supports</div>';
 			foreach ($state_pro_policies as $pro_policy) {
 				$raw_state_pro_policy = $pro_policy[$state_name . '_supported_policy'];
-				$state_pro_policy = str_replace("\"", "&quot", $raw_state_pro_policy);
+				$state_pro_policy = self::_escape_quotation_marks($raw_state_pro_policy);
 				$raw_state_pro_policy_info = $pro_policy[$state_name . '_supported_policy_info'];
-				$state_pro_policy_info = str_replace("\"", "&quot", $raw_state_pro_policy_info);
+				$state_pro_policy_info = self::_escape_quotation_marks($raw_state_pro_policy_info);
 
 				echo '<div class=\'policy-name\'><b>' . $state_pro_policy . ':</b></div>';
 				echo '<div class=\'policy-info\'>' . $state_pro_policy_info . '</div>';
@@ -228,9 +234,9 @@ class Map_Widget extends Widget_Base {
 			echo '<div class=\'anti-policies\'><div class=\'anti-policies-header\'>PFCJR Position: Opposes</div>';
 			foreach ($state_anti_policies as $anti_policy) {
 				$raw_state_anti_policy = $anti_policy[$state_name . '_opposed_policy'];
-				$state_anti_policy = str_replace("\"", "&quot", $raw_state_anti_policy);
+				$state_anti_policy = self::_escape_quotation_marks($raw_state_anti_policy);
 				$raw_state_anti_policy_info = $anti_policy[$state_name . '_opposed_policy_info'];
-				$state_anti_policy_info = str_replace("\"", "&quot", $raw_state_anti_policy_info);
+				$state_anti_policy_info = self::_escape_quotation_marks($raw_state_anti_policy_info);
 
 				echo '<div class=\'policy-name\'><b>' . $state_anti_policy . ':</b></div>';
 				echo '<div class=\'policy-info\'>' . $state_anti_policy_info . '</div>';
@@ -242,7 +248,7 @@ class Map_Widget extends Widget_Base {
 			echo '<div class=\'action-items\'><div><b>What you can do</b></div><ul>';
 			foreach ($state_action_items as $state_action_item) {
 				$raw_action_item = $state_action_item[$state_name . '_action_item'];
-				$action_item = str_replace("\"", "'", $raw_action_item);
+				$action_item = self::_escape_quotation_marks($raw_action_item);
 				echo '<li>' . $action_item . '</li>';
 			}
 			echo '</ul></div>';
@@ -299,9 +305,9 @@ class Map_Widget extends Widget_Base {
 			echo '<div class=\'pro-policies\'><div class=\'pro-policies-header\'>PFCJR Position: Supports</div>';
 			foreach ($dc_pro_policies as $pro_policy) {
 				$raw_dc_pro_policy = $pro_policy['DC_supported_policy'];
-				$dc_pro_policy = str_replace("\"", "&quot", $raw_dc_pro_policy);
+				$dc_pro_policy = self::_escape_quotation_marks($raw_dc_pro_policy);
 				$raw_dc_pro_policy_info = $pro_policy['DC_supported_policy_info'];
-				$dc_pro_policy_info = str_replace("\"", "&quot", $raw_dc_pro_policy_info);
+				$dc_pro_policy_info = self::_escape_quotation_marks($raw_dc_pro_policy_info);
 
 				echo '<div class=\'policy-name\'><b>' . $dc_pro_policy . ':</b></div>';
 				echo '<div class=\'policy-info\'>' . $dc_pro_policy_info . '</div>';
@@ -313,9 +319,9 @@ class Map_Widget extends Widget_Base {
 			echo '<div class=\'anti-policies\'><div class=\'anti-policies-header\'>PFCJR Position: Opposes</div>';
 			foreach ($dc_anti_policies as $anti_policy) {
 				$raw_dc_anti_policy = $anti_policy['DC_opposed_policy'];
-				$dc_anti_policy = str_replace("\"", "&quot", $raw_dc_anti_policy);
+				$dc_anti_policy = self::_escape_quotation_marks($raw_dc_anti_policy);
 				$raw_dc_anti_policy_info = $anti_policy['DC_opposed_policy_info'];
-				$dc_anti_policy_info = str_replace("\"", "&quot", $raw_dc_anti_policy_info);
+				$dc_anti_policy_info = self::_escape_quotation_marks($raw_dc_anti_policy_info);
 
 				echo '<div class=\'policy-name\'><b>' . $dc_anti_policy . ':</b></div>';
 				echo '<div class=\'policy-info\'>' . $dc_anti_policy_info . '</div>';
@@ -327,7 +333,8 @@ class Map_Widget extends Widget_Base {
 			echo '<div class=\'action-items\'><div><b>What you can do</b></div><ul>';
 			foreach ($dc_action_items as $action_item) {
 				$raw_dc_action_item = $action_item['DC_action_item'];
-				$dc_action_item = str_replace("\"", "'", $raw_dc_action_item);
+				$dc_action_item = self::_escape_quotation_marks($raw_dc_action_item);
+				
 				echo '<li>' . $dc_action_item . '</li>';
 			}
 			echo '</ul></div>';
